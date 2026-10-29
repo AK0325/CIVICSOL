@@ -1,0 +1,1177 @@
+.rewards-page {
+    min-height: 100vh;
+    padding: 110px 6vw 80px;
+    background:
+        radial-gradient(circle at 15% 5%,
+            rgba(37, 99, 235, 0.12),
+            transparent 28%),
+        radial-gradient(circle at 90% 30%,
+            rgba(6, 182, 212, 0.08),
+            transparent 28%),
+        #020817;
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.rewards-header {
+    max-width: 1250px;
+    margin: 0 auto 32px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #7dd3fc;
+    font-size: 13px;
+    font-weight: 600;
+
+    margin-bottom: 22px;
+}
+
+
+.rewards-eyebrow,
+.rewards-section-header p {
+    margin: 0 0 8px;
+
+    color: #38bdf8;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.18em;
+}
+
+
+.rewards-header h1 {
+    margin: 0;
+
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05;
+
+    letter-spacing: -0.025em;
+}
+
+
+.rewards-subtitle {
+    max-width: 650px;
+
+    margin: 15px 0 0;
+
+    color: #8190a8;
+
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+
+.rewards-user-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 11px 15px;
+
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 16px;
+
+    background: rgba(15, 23, 42, 0.7);
+
+    white-space: nowrap;
+}
+
+
+.rewards-user-avatar {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: rgba(14, 165, 233, 0.13);
+    color: #38bdf8;
+}
+
+
+.rewards-user-chip div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+
+.rewards-user-chip strong {
+    font-size: 13px;
+}
+
+
+.rewards-user-chip span {
+    color: #64748b;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.rewards-hero {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+
+    min-height: 230px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 42px 48px;
+
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    border-radius: 26px;
+
+    background:
+        linear-gradient(135deg,
+            rgba(14, 165, 233, 0.13),
+            rgba(15, 23, 42, 0.8) 55%);
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+
+.rewards-hero-content {
+    flex: 1;
+}
+
+
+.credits-symbol {
+    width: 58px;
+    height: 58px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 16px;
+
+    background: rgba(250, 204, 21, 0.1);
+    color: #facc15;
+}
+
+
+.rewards-hero-content p {
+    margin: 0 0 5px;
+
+    color: #7dd3fc;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+
+
+.rewards-hero-content h2 {
+    margin: 0;
+
+    font-size: 60px;
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.rewards-hero-content span {
+    display: block;
+
+    margin-top: 9px;
+
+    color: #718096;
+    font-size: 13px;
+}
+
+
+.hero-divider {
+    width: 1px;
+    height: 105px;
+
+    margin: 0 50px;
+
+    background: rgba(148, 163, 184, 0.13);
+}
+
+
+.rewards-level {
+    min-width: 250px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.level-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 15px;
+
+    background: rgba(250, 204, 21, 0.09);
+    color: #facc15;
+}
+
+
+.rewards-level div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.rewards-level span {
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+.rewards-level strong {
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.reward-progress-card {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+
+    padding: 27px 30px;
+
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 20px;
+
+    background: rgba(8, 20, 37, 0.78);
+}
+
+
+.reward-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.reward-progress-header span {
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+.reward-progress-header h2 {
+    margin: 5px 0 0;
+    font-size: 18px;
+}
+
+
+.progress-number {
+    text-align: right;
+}
+
+
+.progress-number strong {
+    display: block;
+
+    color: #38bdf8;
+    font-size: 22px;
+}
+
+
+.progress-number span {
+    font-size: 10px;
+}
+
+
+.reward-progress-track {
+    height: 9px;
+
+    margin-top: 23px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #14253b;
+}
+
+
+.reward-progress-value {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(90deg,
+            #2563eb,
+            #06b6d4);
+
+    box-shadow:
+        0 0 18px rgba(6, 182, 212, 0.35);
+
+    transition: width 0.7s ease;
+}
+
+
+.reward-progress-footer {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 10px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.reward-stat-grid {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+}
+
+
+.reward-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 20px;
+
+    border: 1px solid rgba(148, 163, 184, 0.11);
+    border-radius: 18px;
+
+    background: rgba(8, 20, 37, 0.72);
+}
+
+
+.reward-stat-icon {
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+}
+
+
+.reward-stat-icon.blue {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.11);
+}
+
+
+.reward-stat-icon.gold {
+    color: #facc15;
+    background: rgba(250, 204, 21, 0.1);
+}
+
+
+.reward-stat-icon.green {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.1);
+}
+
+
+.reward-stat-icon.purple {
+    color: #c084fc;
+    background: rgba(168, 85, 247, 0.1);
+}
+
+
+.reward-stat-card div:last-child {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.reward-stat-card span {
+    color: #64748b;
+    font-size: 11px;
+}
+
+
+.reward-stat-card strong {
+    font-size: 17px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.rewards-content-grid {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr) minmax(0, 1fr);
+
+    gap: 18px;
+}
+
+
+.badges-card,
+.history-card,
+.level-guide {
+    border: 1px solid rgba(148, 163, 184, 0.11);
+    border-radius: 20px;
+
+    background: rgba(8, 20, 37, 0.75);
+
+    overflow: hidden;
+}
+
+
+.badges-card,
+.history-card {
+    padding: 27px;
+}
+
+
+.rewards-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+}
+
+
+.rewards-section-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+.rewards-section-header>svg {
+    color: #38bdf8;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 11px;
+}
+
+
+.badge-item {
+    min-height: 105px;
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(148, 163, 184, 0.1);
+
+    background: rgba(15, 31, 51, 0.7);
+}
+
+
+.badge-item.earned {
+    border-color: rgba(56, 189, 248, 0.18);
+}
+
+
+.badge-item.locked {
+    opacity: 0.52;
+}
+
+
+.badge-icon {
+    position: relative;
+
+    width: 45px;
+    height: 45px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    color: #facc15;
+    background: rgba(250, 204, 21, 0.09);
+}
+
+
+.badge-item.locked .badge-icon {
+    color: #64748b;
+    background: rgba(100, 116, 139, 0.08);
+}
+
+
+.badge-icon>span {
+    position: absolute;
+
+    right: -3px;
+    bottom: -3px;
+
+    width: 17px;
+    height: 17px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #334155;
+    color: #cbd5e1;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+
+.badge-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.badge-info strong {
+    font-size: 13px;
+}
+
+
+.badge-info>span {
+    color: #64748b;
+
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+
+.badge-info small {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin-top: 3px;
+
+    color: #38bdf8;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+.badge-item.locked small {
+    color: #64748b;
+}
+
+
+.badge-summary {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-top: 17px;
+    padding-top: 16px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+
+    color: #64748b;
+    font-size: 11px;
+}
+
+
+.no-badges {
+    min-height: 150px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.history-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+
+.history-row:last-child {
+    border-bottom: 0;
+}
+
+
+.history-icon {
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+}
+
+
+.history-icon.positive {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.09);
+}
+
+
+.history-icon.negative {
+    color: #fb7185;
+    background: rgba(244, 63, 94, 0.08);
+}
+
+
+.history-details {
+    min-width: 0;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.history-details strong {
+    overflow: hidden;
+
+    color: #dbe4f0;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.history-details span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.history-credits {
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+
+.history-credits.positive {
+    color: #4ade80;
+}
+
+
+.history-credits.negative {
+    color: #fb7185;
+}
+
+
+.empty-history {
+    min-height: 270px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+
+.empty-history h3 {
+    margin: 12px 0 5px;
+
+    color: #cbd5e1;
+
+    font-size: 15px;
+}
+
+
+.empty-history p {
+    max-width: 300px;
+
+    margin: 0 0 17px;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+.empty-history a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    color: #38bdf8;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LEVEL GUIDE
+========================================================= */
+
+.level-guide {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+
+    padding: 27px;
+}
+
+
+.level-guide .rewards-section-header {
+    margin-bottom: 18px;
+}
+
+
+.level-guide-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 10px;
+}
+
+
+.level-guide-item {
+    padding: 17px;
+
+    border: 1px solid rgba(148, 163, 184, 0.08);
+    border-radius: 15px;
+
+    background: rgba(15, 31, 51, 0.5);
+}
+
+
+.level-guide-item.active {
+    border-color: rgba(56, 189, 248, 0.32);
+
+    background:
+        linear-gradient(135deg,
+            rgba(14, 165, 233, 0.1),
+            rgba(15, 31, 51, 0.65));
+
+    box-shadow:
+        inset 0 0 30px rgba(14, 165, 233, 0.03);
+}
+
+
+.level-guide-item>div {
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 11px;
+
+    border-radius: 10px;
+
+    color: #64748b;
+    background: rgba(100, 116, 139, 0.08);
+}
+
+
+.level-guide-item.active>div {
+    color: #38bdf8;
+    background: rgba(14, 165, 233, 0.1);
+}
+
+
+.level-guide-item strong {
+    display: block;
+
+    font-size: 12px;
+}
+
+
+.level-guide-item span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.rewards-cta {
+    max-width: 1250px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    padding: 27px 30px;
+
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 20px;
+
+    background:
+        linear-gradient(100deg,
+            rgba(14, 165, 233, 0.1),
+            rgba(8, 20, 37, 0.7));
+}
+
+
+.rewards-cta>div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.rewards-cta>div:first-child>svg {
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+
+.rewards-cta h2 {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+}
+
+
+.rewards-cta p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+
+.rewards-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #0891b2);
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.2);
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+========================================================= */
+
+.rewards-loading,
+.rewards-error {
+    min-height: 65vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+
+.rewards-loading svg {
+    color: #38bdf8;
+
+    animation: rewardPulse 1.4s infinite;
+}
+
+
+.rewards-loading p {
+    margin-top: 12px;
+}
+
+
+.rewards-error svg {
+    color: #38bdf8;
+}
+
+
+.rewards-error h2 {
+    margin: 14px 0 6px;
+
+    color: #f8fafc;
+}
+
+
+.rewards-error p {
+    margin: 0 0 18px;
+}
+
+
+.rewards-error button {
+    border: 0;
+    border-radius: 10px;
+
+    padding: 11px 18px;
+
+    background: #2563eb;
+    color: white;
+
+    cursor: pointer;
+}
+
+
+@keyframes rewardPulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(0.96);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .reward-stat-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .level-guide-grid {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .rewards-page {
+        padding: 100px 20px 60px;
+    }
+
+
+    .rewards-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+
+    .rewards-user-chip {
+        align-self: stretch;
+    }
+
+
+    .rewards-hero {
+        padding: 30px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+
+    .hero-divider {
+        width: 100%;
+        height: 1px;
+
+        margin: 0;
+    }
+
+
+    .rewards-level {
+        min-width: 0;
+    }
+
+
+    .rewards-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 620px) {
+
+    .rewards-page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+
+    .reward-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .badge-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .level-guide-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .rewards-cta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+
+    .rewards-cta-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+
+    .reward-progress-footer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .level-guide-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .rewards-hero-content h2 {
+        font-size: 50px;
+    }
+
+}

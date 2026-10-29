@@ -1,0 +1,206 @@
+/* =========================================================
+   CIVICSOL — GLOBAL STYLES
+   ========================================================= */
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #e7f0fa;
+
+  background: #050d19;
+
+  font-synthesis: none;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  margin: 0;
+
+  padding: 0;
+
+  background: #050d19;
+
+  scroll-behavior: smooth;
+}
+
+
+body {
+  margin: 0;
+
+  padding: 0;
+
+  min-width: 320px;
+
+  min-height: 100vh;
+
+  background:
+    #050d19;
+
+  color: #e7f0fa;
+}
+
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: inherit;
+}
+
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+img {
+  display: block;
+
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+  border: 0;
+
+  cursor: pointer;
+}
+
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
+#root {
+  min-height: 100vh;
+
+  width: 100%;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background:
+    rgba(56, 189, 248, 0.25);
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+  background: #040b15;
+}
+
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+
+  background: #18344d;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #245271;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+
+textarea {
+  resize: vertical;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+}
+/* =====================================================
+   GLOBAL LINK RESET
+   Remove browser default underlines
+   ===================================================== */
+
+a,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none !important;
+}

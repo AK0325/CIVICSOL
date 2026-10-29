@@ -1,0 +1,345 @@
+/* =====================================================
+   CIVICSOL FOOTER
+===================================================== */
+
+.site-footer {
+    width: 100%;
+    margin-top: 100px;
+    background:
+        radial-gradient(circle at 20% 0%,
+            rgba(0, 174, 255, 0.08),
+            transparent 35%),
+        #06101f;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+
+/* =====================================================
+   MAIN FOOTER
+===================================================== */
+
+.footer-container {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns:
+        1.6fr 1fr 1fr 0.9fr;
+
+    gap: 70px;
+
+    padding: 72px 0 64px;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.footer-brand {
+    max-width: 360px;
+}
+
+
+.footer-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.footer-logo-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(145deg,
+            #20b8ff,
+            #078de1);
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(0, 174, 255, 0.2);
+}
+
+
+.footer-logo-text {
+    color: #f1f5f9;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.footer-logo-subtitle {
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+}
+
+
+.footer-description {
+    margin: 25px 0 22px;
+
+    color: #8190a5;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+.footer-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #718198;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #34d399;
+
+    box-shadow:
+        0 0 12px rgba(52, 211, 153, 0.8);
+}
+
+
+/* =====================================================
+   FOOTER COLUMNS
+===================================================== */
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+.footer-column h3 {
+    margin: 0 0 8px;
+
+    color: #f1f5f9;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+}
+
+
+.footer-column a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    width: fit-content;
+
+    color: #7f8da3;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.footer-column a svg:last-child {
+    opacity: 0.6;
+}
+
+
+.footer-column a:hover {
+    color: #38bdf8;
+
+    transform: translateX(3px);
+}
+
+
+/* =====================================================
+   FOOTER BOTTOM
+===================================================== */
+
+.footer-bottom {
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+
+    background: rgba(2, 8, 23, 0.45);
+}
+
+
+.footer-bottom-container {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 22px 0;
+}
+
+
+/* COPYRIGHT */
+
+.footer-copyright {
+    color: #64748b;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+/* CREDIT */
+
+.footer-credit {
+    color: #718198;
+
+    font-size: 11px;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+
+.footer-credit strong {
+    color: #cbd5e1;
+
+    font-weight: 600;
+}
+
+
+/* TECHNOLOGY */
+
+.footer-tech {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+.footer-tech span {
+    color: #38bdf8;
+
+    font-weight: 700;
+}
+
+
+.footer-tech b {
+    color: #334155;
+
+    font-weight: 400;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 50px 40px;
+    }
+
+
+    .footer-brand {
+        max-width: 100%;
+    }
+
+
+    .footer-bottom-container {
+        flex-direction: column;
+
+        justify-content: center;
+
+        gap: 10px;
+
+        text-align: center;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .site-footer {
+        margin-top: 70px;
+    }
+
+
+    .footer-container {
+        width: min(100% - 36px,
+                480px);
+
+        grid-template-columns: 1fr;
+
+        gap: 38px;
+
+        padding: 55px 0 45px;
+    }
+
+
+    .footer-bottom-container {
+        width: min(100% - 36px,
+                480px);
+
+        padding: 24px 0;
+    }
+
+
+    .footer-copyright,
+    .footer-credit,
+    .footer-tech {
+        white-space: normal;
+
+        text-align: center;
+
+        justify-content: center;
+
+        line-height: 1.6;
+    }
+
+}

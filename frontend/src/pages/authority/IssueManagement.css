@@ -1,0 +1,109 @@
+.issue-mgmt-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.issue-filter-bar {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+}
+
+.issue-search-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(8, 14, 26, 0.8);
+    color: #f8fafc;
+    font-size: 13.5px;
+    outline: none;
+}
+
+.issue-search-input:focus {
+    border-color: #38bdf8;
+}
+
+.issue-select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: #0b1324;
+    color: #cbd5e1;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.issue-select:focus {
+    border-color: #38bdf8;
+}
+
+.issue-table-card {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.issue-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.pagination-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: rgba(148, 163, 184, 0.1);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    font-size: 12.5px;
+    cursor: pointer;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* MODAL STYLES */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px;
+}

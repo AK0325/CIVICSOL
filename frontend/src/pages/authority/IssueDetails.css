@@ -1,0 +1,117 @@
+.issue-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.details-two-col {
+    display: grid;
+    grid-template-columns: 1.8fr 1.2fr;
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .details-two-col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.evidence-photos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+    .evidence-photos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.photo-card {
+    background: #080e1a;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-card-header {
+    padding: 8px 12px;
+    background: rgba(15, 23, 42, 0.8);
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #000;
+}
+
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-container::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: rgba(148, 163, 184, 0.15);
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -20px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #38bdf8;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+}
+
+.timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.timeline-user {
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.timeline-time {
+    color: #64748b;
+}
+
+.timeline-comment {
+    font-size: 13px;
+    color: #94a3b8;
+    background: rgba(8, 14, 26, 0.5);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}

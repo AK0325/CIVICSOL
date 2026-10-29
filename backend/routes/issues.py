@@ -1,0 +1,481 @@
+import io
+from pathlib import Path
+from uuid import uuid4
+
+from PIL import Image
+from pydantic import BaseModel, Field
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Request,
+    UploadFile,
+    status,
+)
+from sqlalchemy.orm import Session
+
+from ..auth.dependencies import get_current_user
+from ..core.config import settings
+from ..database import get_db
+from ..models import AuditLog, CivicIssue, IssueStatusHistory, User
+from ..notifications.service import notify_citizen_and_officer
+from ..rewards.credit_engine import add_credit_transaction
+
+
+router = APIRouter(
+    prefix="/issues",
+    tags=["Civic Issues"],
+)
+
+
+UPLOAD_DIR = (
+    Path(__file__).resolve().parents[2]
+    / "uploads"
+)
+
+UPLOAD_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
+
+# =========================================================
+# CREATE CIVIC ISSUE
+# =========================================================
+
+@router.post("/")
+async def create_issue(
+    title: str = Form(...),
+    description: str = Form(""),
+    category: str = Form(...),
+    severity: str = Form("Medium"),
+    location: str = Form(...),
+    latitude: float = Form(...),
+    longitude: float = Form(...),
+    image: UploadFile = File(...),
+
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+
+    # -----------------------------------------------------
+    # Validate MIME type
+    # -----------------------------------------------------
+
+    if (
+        not image.content_type
+        or not image.content_type.startswith("image/")
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Only image files are allowed.",
+        )
+
+    # -----------------------------------------------------
+    # Validate GPS
+    # -----------------------------------------------------
+
+    if not (-90 <= latitude <= 90):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid latitude.",
+        )
+
+    if not (-180 <= longitude <= 180):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid longitude.",
+        )
+
+    # -----------------------------------------------------
+    # Read & validate image content & size
+    # -----------------------------------------------------
+
+    try:
+        contents = await image.read()
+    except Exception as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unable to read uploaded file: {str(exc)}",
+        )
+
+    if not contents:
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded image is empty.",
+        )
+
+    max_bytes = settings.MAX_IMAGE_SIZE_MB * 1024 * 1024
+    if len(contents) > max_bytes:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Image file exceeds maximum allowed size of {settings.MAX_IMAGE_SIZE_MB}MB.",
+        )
+
+    # Validate image integrity and determine format using Pillow
+    try:
+        with Image.open(io.BytesIO(contents)) as pil_img:
+            pil_img.verify()
+            img_format = (pil_img.format or "").upper()
+    except Exception:
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded file is not a valid or readable image.",
+        )
+
+    ALLOWED_FORMATS = {
+        "JPEG": ".jpg",
+        "PNG": ".png",
+        "WEBP": ".webp",
+    }
+
+    if img_format not in ALLOWED_FORMATS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported image format: {img_format}. Allowed formats: JPEG, PNG, WEBP.",
+        )
+
+    extension = ALLOWED_FORMATS[img_format]
+    filename = f"{uuid4().hex}{extension}"
+    image_path = UPLOAD_DIR / filename
+
+    try:
+        image_path.write_bytes(contents)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to save image: {str(exc)}",
+        )
+
+    # -----------------------------------------------------
+    # Create issue
+    # -----------------------------------------------------
+
+    issue = CivicIssue(
+        title=title.strip(),
+
+        description=description.strip(),
+
+        category=category.strip(),
+
+        severity=severity.strip(),
+
+        location=location.strip(),
+
+        latitude=latitude,
+
+        longitude=longitude,
+
+        image_path=f"uploads/{filename}",
+
+        status="Reported",
+
+        priority="Medium",
+
+        user_id=current_user.id,
+    )
+
+    try:
+
+        db.add(issue)
+
+        db.commit()
+
+        db.refresh(issue)
+
+    except Exception as exc:
+
+        db.rollback()
+
+        if image_path.exists():
+            image_path.unlink()
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to create civic issue: {str(exc)}",
+        )
+
+    # =====================================================
+    # CIVIC CREDIT ENGINE
+    # =====================================================
+
+    try:
+
+        # +10 for submitting a valid report
+        add_credit_transaction(
+            db=db,
+            user_id=current_user.id,
+            issue_id=issue.id,
+            action="valid_report",
+            description="Valid civic issue report submitted.",
+        )
+
+        # +5 for image evidence
+        add_credit_transaction(
+            db=db,
+            user_id=current_user.id,
+            issue_id=issue.id,
+            action="clear_evidence",
+            description="Image evidence submitted with report.",
+        )
+
+        # +5 for GPS evidence
+        add_credit_transaction(
+            db=db,
+            user_id=current_user.id,
+            issue_id=issue.id,
+            action="gps_evidence",
+            description="GPS location evidence submitted.",
+        )
+
+    except Exception as exc:
+
+        # The issue has already been created.
+        # Credit failure should not delete the citizen report.
+
+        print(
+            f"Civic credit error: {exc}"
+        )
+
+    # -----------------------------------------------------
+    # Response
+    # -----------------------------------------------------
+
+    return {
+        "message": "Civic issue created successfully.",
+
+        "issue": {
+            "id": issue.id,
+
+            "title": issue.title,
+
+            "description": issue.description,
+
+            "category": issue.category,
+
+            "severity": issue.severity,
+
+            "location": issue.location,
+
+            "latitude": issue.latitude,
+
+            "longitude": issue.longitude,
+
+            "image_path": issue.image_path,
+
+            "status": issue.status,
+
+            "priority": issue.priority,
+
+            "user_id": issue.user_id,
+
+            "created_at": issue.created_at,
+        },
+
+        "credits_earned": 20,
+    }
+
+
+# =========================================================
+# GET CIVIC ISSUES
+# =========================================================
+
+@router.get("/")
+def get_issues(
+    db: Session = Depends(get_db),
+):
+
+    return (
+        db.query(CivicIssue)
+        .order_by(
+            CivicIssue.created_at.desc()
+        )
+        .all()
+    )
+
+
+# =========================================================
+# GET MY REPORTS
+# =========================================================
+
+@router.get("/mine")
+def get_my_issues(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+
+    issues = (
+        db.query(CivicIssue)
+        .filter(
+            CivicIssue.user_id
+            == current_user.id
+        )
+        .order_by(
+            CivicIssue.created_at.desc()
+        )
+        .all()
+    )
+
+    return issues
+
+
+# =========================================================
+# GET CITIZEN REPORT DOSSIER & CHRONOLOGICAL TIMELINE
+# =========================================================
+
+@router.get("/{issue_id}")
+def get_issue_timeline_for_citizen(
+    issue_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Retrieve report details and chronological status timeline for the report owner.
+    Protects privacy: citizens cannot access another citizen's private report.
+    """
+    issue = db.query(CivicIssue).filter(CivicIssue.id == issue_id).first()
+
+    if not issue:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Civic issue report not found.",
+        )
+
+    # Authorization boundary: Only report owner or authority personnel may view
+    if issue.user_id != current_user.id and current_user.role == "CITIZEN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: You cannot view another citizen's private report details.",
+        )
+
+    # Chronological history (oldest to newest for intuitive timeline presentation)
+    history_records = (
+        db.query(IssueStatusHistory)
+        .filter(IssueStatusHistory.issue_id == issue.id)
+        .order_by(IssueStatusHistory.created_at.asc())
+        .all()
+    )
+
+    timeline = []
+    for h in history_records:
+        timeline.append({
+            "id": h.id,
+            "from_status": h.from_status,
+            "to_status": h.to_status,
+            "comment": h.comment,
+            "created_at": h.created_at,
+        })
+
+    dept_name = issue.department_rel.name if issue.department_rel else (issue.department or "Municipal Operations")
+
+    return {
+        "id": issue.id,
+        "title": issue.title,
+        "description": issue.description,
+        "category": issue.category,
+        "severity": issue.severity,
+        "priority": issue.priority,
+        "location": issue.location,
+        "latitude": issue.latitude,
+        "longitude": issue.longitude,
+        "image_path": issue.image_path,
+        "status": issue.status,
+        "department_name": dept_name,
+        "resolution_notes": issue.resolution_notes,
+        "resolution_image_path": issue.resolution_image_path,
+        "resolved_at": issue.resolved_at,
+        "rejection_reason": issue.rejection_reason,
+        "created_at": issue.created_at,
+        "updated_at": issue.updated_at,
+        "status_timeline": timeline,
+    }
+
+
+# =========================================================
+# CITIZEN REOPEN REQUEST WORKFLOW
+# =========================================================
+
+class CitizenReopenRequest(BaseModel):
+    reason: str = Field(..., min_length=5, description="Reason for requesting report reopen")
+
+
+@router.post("/{issue_id}/reopen-request")
+def request_issue_reopen(
+    issue_id: int,
+    payload: CitizenReopenRequest,
+    request: Request,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Authorized workflow for citizens to request reopening a resolved or rejected report.
+    Validates ownership, current state, and required justification.
+    """
+    issue = db.query(CivicIssue).filter(CivicIssue.id == issue_id).first()
+
+    if not issue:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Civic issue report not found.",
+        )
+
+    if issue.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You can only request to reopen your own submitted reports.",
+        )
+
+    # Must be in terminal state to reopen
+    if issue.status not in ["Resolved", "Rejected"]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Cannot request reopen on an issue with status '{issue.status}'. Reopen is only applicable to Resolved or Rejected reports.",
+        )
+
+    prev_status = issue.status
+    reason_clean = payload.reason.strip()
+    issue.status = "Reopened"
+
+    # Status history entry
+    hist = IssueStatusHistory(
+        issue_id=issue.id,
+        from_status=prev_status,
+        to_status="Reopened",
+        changed_by_id=current_user.id,
+        comment=f"Citizen requested reopen: {reason_clean}",
+    )
+    db.add(hist)
+
+    # Audit log
+    client_ip = request.client.host if request.client else "127.0.0.1"
+    audit = AuditLog(
+        user_id=current_user.id,
+        action="ISSUE_REOPEN_REQUESTED",
+        entity_type="CIVIC_ISSUE",
+        entity_id=issue.id,
+        details=f"Citizen {current_user.name} requested reopen for issue #{issue.id}: {reason_clean}",
+        ip_address=client_ip,
+    )
+    db.add(audit)
+
+    # Dispatch notification to officer/department
+    notify_citizen_and_officer(
+        db=db,
+        citizen=current_user,
+        officer=issue.assigned_officer,
+        event="REOPENED",
+        issue_id=issue.id,
+        issue_title=issue.title,
+        details={"reason": reason_clean},
+    )
+
+    db.commit()
+    db.refresh(issue)
+
+    return {
+        "message": "Reopen request submitted successfully. The municipal department has been notified.",
+        "issue_id": issue.id,
+        "status": issue.status,
+    }
