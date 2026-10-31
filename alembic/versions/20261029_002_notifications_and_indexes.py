@@ -22,35 +22,37 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
+    bind = op.get_bind()
+    inspector = sa.inspect(bind)
+    existing_tables = inspector.get_table_names()
+
     # -----------------------------------------------------
     # 1. CREATE NOTIFICATIONS TABLE
     # -----------------------------------------------------
-    op.create_table(
-        'notifications',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('user_id', sa.Integer(), nullable=False),
-        sa.Column('title', sa.String(length=150), nullable=False),
-        sa.Column('message', sa.Text(), nullable=False),
-        sa.Column('notification_type', sa.String(length=50), nullable=False),
-        sa.Column('entity_type', sa.String(length=50), nullable=True, server_default='CIVIC_ISSUE'),
-        sa.Column('entity_id', sa.Integer(), nullable=True),
-        sa.Column('is_read', sa.Boolean(), nullable=False, server_default='false'),
-        sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
-        sa.PrimaryKeyConstraint('id'),
-    )
-    op.create_index('ix_notifications_id', 'notifications', ['id'], unique=False)
-    op.create_index('ix_notifications_user_id', 'notifications', ['user_id'], unique=False)
-    op.create_index('ix_notifications_is_read', 'notifications', ['is_read'], unique=False)
-    op.create_index('ix_notifications_created_at', 'notifications', ['created_at'], unique=False)
-    op.create_index('ix_notifications_type', 'notifications', ['notification_type'], unique=False)
+    if 'notifications' not in existing_tables:
+        op.create_table(
+            'notifications',
+            sa.Column('id', sa.Integer(), nullable=False),
+            sa.Column('user_id', sa.Integer(), nullable=False),
+            sa.Column('title', sa.String(length=150), nullable=False),
+            sa.Column('message', sa.Text(), nullable=False),
+            sa.Column('notification_type', sa.String(length=50), nullable=False),
+            sa.Column('entity_type', sa.String(length=50), nullable=True, server_default='CIVIC_ISSUE'),
+            sa.Column('entity_id', sa.Integer(), nullable=True),
+            sa.Column('is_read', sa.Boolean(), nullable=False, server_default='false'),
+            sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.func.now()),
+            sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
+            sa.PrimaryKeyConstraint('id'),
+        )
+        op.create_index('ix_notifications_id', 'notifications', ['id'], unique=False)
+        op.create_index('ix_notifications_user_id', 'notifications', ['user_id'], unique=False)
+        op.create_index('ix_notifications_is_read', 'notifications', ['is_read'], unique=False)
+        op.create_index('ix_notifications_created_at', 'notifications', ['created_at'], unique=False)
+        op.create_index('ix_notifications_type', 'notifications', ['notification_type'], unique=False)
 
     # -----------------------------------------------------
     # 2. CREATE PERFORMANCE INDEXES ON CIVIC_ISSUES
     # -----------------------------------------------------
-    # Helper to check if index exists before creating
-    bind = op.get_bind()
-    inspector = sa.inspect(bind)
     existing_indexes = [idx['name'] for idx in inspector.get_indexes('civic_issues')]
 
     if 'ix_civic_issues_status' not in existing_indexes:
@@ -82,9 +84,11 @@ def downgrade() -> None:
             op.drop_index(idx_name, table_name='civic_issues')
 
     # Drop notifications table and indexes
-    op.drop_index('ix_notifications_type', table_name='notifications')
-    op.drop_index('ix_notifications_created_at', table_name='notifications')
-    op.drop_index('ix_notifications_is_read', table_name='notifications')
-    op.drop_index('ix_notifications_user_id', table_name='notifications')
-    op.drop_index('ix_notifications_id', table_name='notifications')
-    op.drop_table('notifications')
+    existing_tables = inspector.get_table_names()
+    if 'notifications' in existing_tables:
+        op.drop_index('ix_notifications_type', table_name='notifications')
+        op.drop_index('ix_notifications_created_at', table_name='notifications')
+        op.drop_index('ix_notifications_is_read', table_name='notifications')
+        op.drop_index('ix_notifications_user_id', table_name='notifications')
+        op.drop_index('ix_notifications_id', table_name='notifications')
+        op.drop_table('notifications')

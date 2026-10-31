@@ -3,7 +3,7 @@ CIVICSOL - Authority Statistics & Analytics Router
 Calculates real database-backed aggregation metrics for the Municipal Command Center.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends, Query
@@ -96,7 +96,9 @@ def get_stats_overview(
             overdue_count += 1
 
         if issue.status == "Resolved" and issue.resolved_at and issue.created_at:
-            delta = issue.resolved_at - issue.created_at
+            r_dt = issue.resolved_at if issue.resolved_at.tzinfo else issue.resolved_at.replace(tzinfo=timezone.utc)
+            c_dt = issue.created_at if issue.created_at.tzinfo else issue.created_at.replace(tzinfo=timezone.utc)
+            delta = r_dt - c_dt
             hours = max(0.0, delta.total_seconds() / 3600.0)
             resolution_durations.append(hours)
 
@@ -218,9 +220,12 @@ def get_officer_workloads(
         User.is_active == True,
     )
 
+    if hasattr(department_id, "default"):
+        department_id = department_id.default
+
     if current_user.role == "DEPARTMENT_OFFICER" and current_user.department_id:
         officer_query = officer_query.filter(User.department_id == current_user.department_id)
-    elif department_id:
+    elif department_id is not None:
         officer_query = officer_query.filter(User.department_id == department_id)
 
     officers = officer_query.all()

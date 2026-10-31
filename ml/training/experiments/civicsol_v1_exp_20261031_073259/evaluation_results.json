@@ -1,0 +1,96 @@
+{
+  "experiment_id": "civicsol_v1_exp_20261031_073259",
+  "model_architecture": "YOLOv8n (Ultralytics)",
+  "pretrained_weights": "yolov8n.pt",
+  "hardware_device": "cpu",
+  "training_timestamp": "20261031_073259",
+  "training_duration_seconds": 60.7,
+  "hyperparameters": {
+    "epochs": 10,
+    "batch_size": 8,
+    "imgsz": 640,
+    "seed": 42,
+    "patience": 10,
+    "optimizer": "auto"
+  },
+  "dataset": {
+    "config": "ml/dataset/data.yaml",
+    "train_images": 25,
+    "val_images": 7,
+    "test_images": 4,
+    "total_images": 36,
+    "total_annotations": 39
+  },
+  "validation_metrics": {
+    "precision": 0.9556,
+    "recall": 0.0833,
+    "mAP50": 0.1332,
+    "mAP50_95": 0.0347,
+    "per_class": {
+      "pothole": {
+        "class_id": 0,
+        "ap50": 0.0
+      },
+      "garbage": {
+        "class_id": 1,
+        "ap50": 0.1336
+      },
+      "water_leakage": {
+        "class_id": 2,
+        "ap50": 0.0012
+      },
+      "broken_streetlight": {
+        "class_id": 3,
+        "ap50": 0.0347
+      },
+      "damaged_road": {
+        "class_id": 4,
+        "ap50": 0.0347
+      },
+      "drainage_issue": {
+        "class_id": 5,
+        "ap50": 0.0347
+      },
+      "fallen_tree": {
+        "class_id": 6,
+        "ap50": 0.004
+      },
+      "damaged_infrastructure": {
+        "class_id": 7,
+        "ap50": 0.0347
+      }
+    }
+  },
+  "test_metrics": {
+    "precision": 0.7027,
+    "recall": 0.25,
+    "mAP50": 0.2653,
+    "mAP50_95": 0.1293,
+    "avg_inference_latency_ms": 364.67
+  },
+  "acceptance_gates": {
+    "val_mAP50_min_0_50": {
+      "target": 0.5,
+      "actual": 0.1332,
+      "passed": false
+    },
+    "test_mAP50_min_0_45": {
+      "target": 0.45,
+      "actual": 0.2653,
+      "passed": false
+    },
+    "overall_recall_min_0_45": {
+      "target": 0.45,
+      "actual": 0.0833,
+      "passed": false
+    },
+    "all_gates_passed": false
+  },
+  "model_status": "EXPERIMENTAL",
+  "promoted_to_production": false,
+  "experiment_artifacts": {
+    "best_weights": "ml/training/experiments/civicsol_v1_exp_20261031_073259/weights/best.pt",
+    "last_weights": "ml/training/experiments/civicsol_v1_exp_20261031_073259/weights/last.pt",
+    "plots_directory": "ml/training/experiments/civicsol_v1_exp_20261031_073259/plots"
+  }
+}

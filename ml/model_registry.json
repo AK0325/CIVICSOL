@@ -1,0 +1,150 @@
+{
+  "registry_name": "CIVICSOL Object Detection Model Registry",
+  "active_inference_model": "CivicYOLO-v8-v1.0.0-experimental",
+  "models": [
+    {
+      "model_id": "CivicYOLO-v8-v1.0.0-experimental",
+      "model_name": "CivicYOLO-v8",
+      "model_version": "1.0.0",
+      "status": "EXPERIMENTAL",
+      "architecture": "YOLOv8n (Ultralytics)",
+      "weights_path": "ml/training/weights/best.pt",
+      "dataset_version": "v0.1-seed",
+      "dataset_size": {
+        "train": 25,
+        "val": 7,
+        "test": 4,
+        "total_images": 36,
+        "total_annotations": 39
+      },
+      "class_distribution": {
+        "0_pothole": 12,
+        "1_garbage": 9,
+        "2_water_leakage": 3,
+        "3_broken_streetlight": 3,
+        "4_damaged_road": 3,
+        "5_drainage_issue": 3,
+        "6_fallen_tree": 3,
+        "7_damaged_infrastructure": 3
+      },
+      "validation_metrics": {
+        "precision": 0.5211,
+        "recall": 0.25,
+        "mAP50": 0.0503,
+        "mAP50_95": 0.01
+      },
+      "test_metrics": {
+        "mAP50": 0.0191,
+        "mAP50_95": 0.0019
+      },
+      "acceptance_gate_targets": {
+        "val_mAP50_min": 0.5,
+        "test_mAP50_min": 0.45,
+        "recall_min": 0.45
+      },
+      "acceptance_gate_passed": false,
+      "gate_status_explanation": "Model does not meet the production readiness gate (val mAP@50 0.0503 < 0.50) due to severe seed dataset limitations (36 images total). Retained strictly as an EXPERIMENTAL advisory assistant with human authority oversight.",
+      "identified_limitations": [
+        "Extreme class imbalance: 6 classes have only 3 annotations each in training data.",
+        "Over-detection on organic textures: fallen_tree false positives fire on background vegetation and uncollected garbage piles.",
+        "Low recall on small hazards: missing drainage grates and hairline potholes.",
+        "Single-camera perspective bias: annotations do not cover night or extreme weather conditions."
+      ],
+      "active_runtime_mitigations": [
+        "Ultralytics predict configured with agnostic_nms=True and iou=0.45 to eliminate overlapping multi-class bboxes.",
+        "Configurable confidence threshold (default 0.35) and low-confidence indicator (< 45%) triggering authority warning.",
+        "Gemini evidence consistency check: flags INCONSISTENT when vision disagrees with citizen text, preventing silent overrides.",
+        "Authority false-positive feedback interface logging ground-truth officer corrections into audit trails for active learning dataset expansion."
+      ],
+      "registered_at": "2026-10-30T21:40:00Z",
+      "promoted_to_production": false,
+      "approval_required_for_promotion": true
+    },
+    {
+      "model_id": "civicsol_v1_exp_20261031_073259",
+      "model_name": "CivicYOLO-v8",
+      "model_version": "v1.0.0-civicsol_v1_exp_20261031_073259",
+      "status": "EXPERIMENTAL",
+      "architecture": "YOLOv8n (Ultralytics)",
+      "weights_path": "ml/training/experiments/civicsol_v1_exp_20261031_073259/weights/best.pt",
+      "dataset_version": "v0.1-seed-36img",
+      "dataset_size": {
+        "config": "ml/dataset/data.yaml",
+        "train_images": 25,
+        "val_images": 7,
+        "test_images": 4,
+        "total_images": 36,
+        "total_annotations": 39
+      },
+      "validation_metrics": {
+        "precision": 0.9556,
+        "recall": 0.0833,
+        "mAP50": 0.1332,
+        "mAP50_95": 0.0347,
+        "per_class": {
+          "pothole": {
+            "class_id": 0,
+            "ap50": 0.0
+          },
+          "garbage": {
+            "class_id": 1,
+            "ap50": 0.1336
+          },
+          "water_leakage": {
+            "class_id": 2,
+            "ap50": 0.0012
+          },
+          "broken_streetlight": {
+            "class_id": 3,
+            "ap50": 0.0347
+          },
+          "damaged_road": {
+            "class_id": 4,
+            "ap50": 0.0347
+          },
+          "drainage_issue": {
+            "class_id": 5,
+            "ap50": 0.0347
+          },
+          "fallen_tree": {
+            "class_id": 6,
+            "ap50": 0.004
+          },
+          "damaged_infrastructure": {
+            "class_id": 7,
+            "ap50": 0.0347
+          }
+        }
+      },
+      "test_metrics": {
+        "precision": 0.7027,
+        "recall": 0.25,
+        "mAP50": 0.2653,
+        "mAP50_95": 0.1293,
+        "avg_inference_latency_ms": 364.67
+      },
+      "acceptance_gates": {
+        "val_mAP50_min_0_50": {
+          "target": 0.5,
+          "actual": 0.1332,
+          "passed": false
+        },
+        "test_mAP50_min_0_45": {
+          "target": 0.45,
+          "actual": 0.2653,
+          "passed": false
+        },
+        "overall_recall_min_0_45": {
+          "target": 0.45,
+          "actual": 0.0833,
+          "passed": false
+        },
+        "all_gates_passed": false
+      },
+      "promoted_to_production": false,
+      "approval_required_for_promotion": true,
+      "registered_at": "2026-10-31T07:34:03.731656+00:00",
+      "notes": "Model trained in isolated experiment directory. Retained as EXPERIMENTAL because acceptance gates were not met due to the 36-image dataset limitation. Baseline best.pt was preserved unmodified."
+    }
+  ]
+}

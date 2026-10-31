@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-10-31T05:14:00.469492+00:00",
+  "backend_url": "http://127.0.0.1:8000",
+  "scenarios": {
+    "issue_submission": {
+      "status": "PASSED",
+      "issue_id": 164,
+      "ai_summary": {
+        "analysis_id": 171,
+        "processing_status": "PENDING",
+        "predicted_category": null,
+        "suggested_department": null
+      }
+    },
+    "ai_analysis_persistence": {
+      "status": "PASSED",
+      "analysis_id": 171,
+      "model_name": "CivicYOLO-v8 + gemini-3.5-flash",
+      "predicted_category": "Tree / Greenery",
+      "confidence_score": 0.8157,
+      "processing_status": "COMPLETED",
+      "suggested_severity": "HIGH",
+      "suggested_priority": "HIGH",
+      "suggested_department": "Public Infrastructure",
+      "annotated_image_path": "uploads/annotated/1ca62a4721fb422cbafed2f8f3f9988f_annotated.jpg"
+    },
+    "rejection_workflow": {
+      "status": "PASSED",
+      "empty_rejection_http_code": 422,
+      "valid_rejection_review_status": "REJECTED",
+      "review_comment": "Authority determined priority is lower due to low-traffic residential lane."
+    },
+    "approval_workflow": {
+      "status": "PASSED",
+      "review_status": "APPROVED",
+      "official_updated_department_id": 6,
+      "official_updated_priority": "High"
+    },
+    "reanalysis_and_history": {
+      "status": "PASSED",
+      "total_historical_runs": 2,
+      "runs": [
+        {
+          "id": 172,
+          "model": "CivicYOLO-v8 + gemini-3.5-flash",
+          "status": "PENDING"
+        },
+        {
+          "id": 171,
+          "model": "CivicYOLO-v8 + gemini-3.5-flash",
+          "status": "APPROVED"
+        }
+      ]
+    },
+    "negative_tests": {
+      "status": "PASSED",
+      "non_image_rejection_http_code": 400,
+      "corrupt_image_rejection_http_code": 400
+    }
+  },
+  "overall_status": "ALL_PASSED"
+}

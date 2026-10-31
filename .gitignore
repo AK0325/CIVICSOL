@@ -1,21 +1,97 @@
+# ==============================================================================
+# CIVICSOL - Git Ignore Configuration
+# ==============================================================================
+
+# Environment Variables & Secret Credentials
 .env
 .env*
-*.dump
+.env.*
+*.env
+!.env.example
+!.env.production.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.id_rsa
+id_rsa*
+secrets/
+credentials/
+
+# Database Backups, Dumps & Temporary DBs
 backups/
-*.log
+*.sql
+*.sql.sha256
+*.dump
+*.sqlite
+*.sqlite3
+*.db
 
-__pycache__/
-*.py[cod]
-
-.venv/
-venv/
-.conda/
-
-node_modules/
-dist/
-
-.DS_Store
-
+# Private Citizen Evidence & User Uploads
 uploads/*
 !uploads/.gitkeep
-!.env.example
+backend/uploads/*
+!backend/uploads/.gitkeep
+ml/dataset/images/*/citizen_*
+ml/dataset/labels/*/citizen_*
+ml/raw_seed_data/citizen_*
+ml/test_results/annotated/
+ml/test_results/blurry_pothole.jpg
+
+# Machine Learning Weights & Large Model Binaries
+*.pt
+*.pth
+*.onnx
+*.engine
+*.bin
+weights/*.pt
+weights/*.pth
+
+# ML Training Runs & Temporary Ultralytics Caches
+runs/
+*.cache
+
+# Python Runtime & Test Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+*.log
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+.conda/
+conda/
+
+# Frontend Build Outputs & Dependencies
+node_modules/
+dist/
+frontend/node_modules/
+frontend/dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & Editor Temporary Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace

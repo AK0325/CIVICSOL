@@ -1,0 +1,19 @@
+# CIVICSOL - YOLOv8 Dataset Configuration
+# 8-Class Municipal Civic Hazard Taxonomy
+
+path: ./ml/dataset
+train: images/train
+val: images/val
+test: images/test
+
+nc: 8
+names:
+  0: pothole
+  1: garbage
+  2: water_leakage
+  3: broken_streetlight
+  4: damaged_road
+  5: drainage_issue
+  6: fallen_tree
+  7: damaged_infrastructure
+

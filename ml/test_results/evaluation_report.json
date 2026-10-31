@@ -1,0 +1,120 @@
+{
+  "suite": "CIVICSOL Real Image Detection & Inference Suite",
+  "timestamp": "2026-10-31T09:06:48Z",
+  "model": "CivicYOLO-v8",
+  "weights_path": "ml/training/weights/best.pt",
+  "total_test_scenarios": 11,
+  "test_results": [
+    {
+      "name": "TestSplit_broken_streetlight_2.jpg",
+      "type": "test_dataset",
+      "file": "broken_streetlight_2.jpg",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 15,
+      "ground_truth_count": 1,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.9248,
+      "annotated_image": "uploads/annotated/f09bd8063c2a4de3935883244b5d2dd9_annotated.jpg"
+    },
+    {
+      "name": "TestSplit_damaged_infrastructure_3.jpg",
+      "type": "test_dataset",
+      "file": "damaged_infrastructure_3.jpg",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 16,
+      "ground_truth_count": 1,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.7571,
+      "annotated_image": "uploads/annotated/8e28d591ee084f91a560935b42d64de8_annotated.jpg"
+    },
+    {
+      "name": "TestSplit_fallen_tree_2.jpg",
+      "type": "test_dataset",
+      "file": "fallen_tree_2.jpg",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 24,
+      "ground_truth_count": 1,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.7248,
+      "annotated_image": "uploads/annotated/59dbffa82f3845c887a098217b14b46e_annotated.jpg"
+    },
+    {
+      "name": "TestSplit_garbage_1.jpg",
+      "type": "test_dataset",
+      "file": "garbage_1.jpg",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 10,
+      "ground_truth_count": 1,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.8157,
+      "annotated_image": "uploads/annotated/b4d41db4c7c946fcab7d9629b9a4161c_annotated.jpg"
+    },
+    {
+      "name": "CitizenUpload_Issue1_Garbage",
+      "type": "citizen_upload",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 17,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.7791,
+      "annotated_image": "uploads/annotated/6f01305319424e1e82144b3a63ecc77d_annotated.jpg"
+    },
+    {
+      "name": "CitizenUpload_Issue2_HighResPothole",
+      "type": "large_image_upload",
+      "resolution": "2940x1912",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 7,
+      "top_category": "Tree / Greenery",
+      "confidence": 0.9425,
+      "annotated_image": "uploads/annotated/94548b15cedb404a8bc1d5d4b91dce79_annotated.jpg"
+    },
+    {
+      "name": "NegativeSample_CleanImage",
+      "type": "clean_no_issues",
+      "status": "NO_DETECTION",
+      "detections_count": 0,
+      "expected_status": "NO_DETECTION",
+      "passed": true
+    },
+    {
+      "name": "DegradedInput_BlurryImage",
+      "type": "blurry_image",
+      "status": "DETECTIONS_FOUND",
+      "detections_count": 9,
+      "confidence": 0.5615
+    },
+    {
+      "name": "InvalidInput_CorruptImageBytes",
+      "type": "corrupt_file",
+      "status": "INVALID_IMAGE",
+      "expected_status": "INVALID_IMAGE",
+      "passed": true,
+      "reason": "Corrupt or unreadable image file: cannot identify image file 'ml/test_results/corrupt_data.jpg'"
+    },
+    {
+      "name": "InvalidInput_UnsupportedFormatPDF",
+      "type": "unsupported_format",
+      "status": "INVALID_IMAGE",
+      "expected_status": "INVALID_IMAGE",
+      "passed": true,
+      "reason": "Unsupported image format '.pdf'. Allowed: JPEG, PNG, WEBP."
+    },
+    {
+      "name": "Resilience_MissingWeightsPath",
+      "type": "missing_weights",
+      "status": "MODEL_UNAVAILABLE",
+      "expected_status": "MODEL_UNAVAILABLE",
+      "passed": true,
+      "unavailable_reason": "Trained civic YOLO weights not found at 'non_existent.pt'. Operating in interface mode (see ml/dataset_spec.md)."
+    }
+  ],
+  "summary": {
+    "test_split_images_tested": 4,
+    "edge_cases_tested": 7,
+    "clean_negative_images_passed": true,
+    "corrupt_images_safely_handled": true,
+    "unsupported_formats_safely_handled": true,
+    "missing_weights_gracefully_degraded": true,
+    "high_res_images_processed": true
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "status": "COMPLETED",
+  "model_architecture": "YOLOv8n (Ultralytics)",
+  "pretrained_base": "yolov8n.pt",
+  "hardware_device": "cpu",
+  "dataset_config": "ml/dataset/data.yaml",
+  "dataset_size": {
+    "train": 25,
+    "val": 7,
+    "test": 4,
+    "total_images": 36,
+    "total_annotations": 39
+  },
+  "class_distribution": {
+    "0_pothole": 12,
+    "1_garbage": 9,
+    "2_water_leakage": 3,
+    "3_broken_streetlight": 3,
+    "4_damaged_road": 3,
+    "5_drainage_issue": 3,
+    "6_fallen_tree": 3,
+    "7_damaged_infrastructure": 3
+  },
+  "training_hyperparameters": {
+    "epochs": 5,
+    "batch_size": 8,
+    "image_size": 640,
+    "optimizer": "auto"
+  },
+  "training_duration_seconds": 27.62,
+  "validation_metrics": {
+    "precision": 0.5211,
+    "recall": 0.25,
+    "mAP50": 0.0503,
+    "mAP50-95": 0.01
+  },
+  "test_metrics": {
+    "mAP50": 0.0191,
+    "mAP50-95": 0.0019
+  },
+  "output_weights": "ml/training/weights/best.pt",
+  "timestamp": "2026-10-30T16:05:22Z"
+}

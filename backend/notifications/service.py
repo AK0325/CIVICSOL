@@ -124,6 +124,15 @@ def notify_citizen_and_officer(
         elif event == "REOPENED":
             title = f"Report #{issue_id} Reopened"
             msg = f"Your report '{issue_title}' has been reopened for additional inspection."
+        elif event == "AI_ANALYSIS_COMPLETED":
+            category = details.get("predicted_category", "Identified hazard")
+            confidence = details.get("confidence_percent", "")
+            conf_str = f" ({confidence}% confidence)" if confidence else ""
+            title = f"AI Triage Completed: Report #{issue_id}"
+            msg = f"Automated AI visual analysis for your report '{issue_title}' has completed: classified as {category}{conf_str}. Recommendations have been submitted for municipal authority review."
+        elif event == "AI_ANALYSIS_FAILED":
+            title = f"AI Triage Notice: Report #{issue_id}"
+            msg = f"Automated visual analysis for your report '{issue_title}' could not be finalized. Your report remains securely filed and will be prioritized for manual officer review."
         else:
             title = f"Update on Report #{issue_id}"
             msg = f"There is a new administrative update on your civic issue report '{issue_title}'."

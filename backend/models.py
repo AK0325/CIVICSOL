@@ -7,6 +7,7 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Integer,
+    JSON,
     String,
     Text,
 )
@@ -498,6 +499,13 @@ class CivicIssue(Base):
         order_by="IssueStatusHistory.created_at.desc()",
     )
 
+    ai_analyses = relationship(
+        "AIAnalysis",
+        back_populates="issue",
+        cascade="all, delete-orphan",
+        order_by="AIAnalysis.created_at.desc()",
+    )
+
 
 # =========================================================
 # ISSUE STATUS HISTORY MODEL
@@ -885,4 +893,151 @@ class Notification(Base):
         "User",
         back_populates="notifications",
         foreign_keys="[Notification.user_id]",
+    )
+
+
+# =========================================================
+# AI ANALYSIS MODEL
+# =========================================================
+
+class AIAnalysis(Base):
+    __tablename__ = "ai_analyses"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    issue_id = Column(
+        Integer,
+        ForeignKey(
+            "civic_issues.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    model_name = Column(
+        String(100),
+        nullable=False,
+        default="CivicYOLO-v8",
+    )
+
+    model_version = Column(
+        String(50),
+        nullable=False,
+        default="1.0.0",
+    )
+
+    predicted_category = Column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
+
+    confidence_score = Column(
+        Float,
+        nullable=True,
+    )
+
+    detected_objects = Column(
+        JSON,
+        nullable=True,
+    )
+
+    suggested_severity = Column(
+        String(50),
+        nullable=True,
+    )
+
+    suggested_priority = Column(
+        String(50),
+        nullable=True,
+    )
+
+    suggested_department_id = Column(
+        Integer,
+        ForeignKey(
+            "departments.id",
+            ondelete="SET NULL",
+        ),
+        nullable=True,
+        index=True,
+    )
+
+    explanation = Column(
+        Text,
+        nullable=True,
+    )
+
+    annotated_image_path = Column(
+        String(500),
+        nullable=True,
+    )
+
+    processing_status = Column(
+        String(50),
+        nullable=False,
+        default="PENDING",
+        index=True,
+    )
+
+    review_status = Column(
+        String(50),
+        nullable=False,
+        default="PENDING",
+        index=True,
+    )
+
+    reviewed_by_id = Column(
+        Integer,
+        ForeignKey(
+            "users.id",
+            ondelete="SET NULL",
+        ),
+        nullable=True,
+    )
+
+    reviewed_at = Column(
+        DateTime,
+        nullable=True,
+    )
+
+    review_comment = Column(
+        Text,
+        nullable=True,
+    )
+
+    analysis_metadata = Column(
+        JSON,
+        nullable=True,
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False,
+        index=True,
+    )
+
+    # -----------------------------------------------------
+    # Relationships
+    # -----------------------------------------------------
+
+    issue = relationship(
+        "CivicIssue",
+        back_populates="ai_analyses",
+        foreign_keys="[AIAnalysis.issue_id]",
+    )
+
+    suggested_department = relationship(
+        "Department",
+        foreign_keys="[AIAnalysis.suggested_department_id]",
+    )
+
+    reviewed_by = relationship(
+        "User",
+        foreign_keys="[AIAnalysis.reviewed_by_id]",
     )

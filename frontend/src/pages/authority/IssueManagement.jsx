@@ -501,7 +501,7 @@ export default function IssueManagement() {
                                                         fontWeight: 600,
                                                     }}
                                                 >
-                                                    Dossier
+                                                    View Details
                                                 </Link>
                                             </div>
                                         </td>

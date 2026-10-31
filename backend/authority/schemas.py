@@ -227,6 +227,7 @@ class ActivityFeedItem(BaseModel):
     entity_id: Optional[int] = None
     details: Optional[str] = None
     created_at: datetime
+    actor_name: Optional[str] = None
 
 
 # =========================================================
@@ -293,6 +294,17 @@ class MapIssueItem(BaseModel):
     assigned_officer_id: Optional[int] = None
     assigned_officer_name: Optional[str] = None
     created_at: datetime
+    ai_analysis_status: str = "NOT_ANALYZED"
+    ai_predicted_category: Optional[str] = None
+    ai_suggested_severity: Optional[str] = None
+    ai_suggested_priority: Optional[str] = None
+    ai_suggested_department: Optional[str] = None
+    ai_review_status: Optional[str] = None
+    nearby_similar_count: int = 0
+    is_overdue: bool = False
+    sla_deadline: Optional[datetime] = None
+    hours_remaining: Optional[float] = None
+    compliance_status: Optional[str] = "WITHIN_SLA"
 
 
 class MapIssuesResponse(BaseModel):

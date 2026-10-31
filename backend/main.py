@@ -18,6 +18,7 @@ from .routes.issues import router as issues_router
 from .auth.router import router as auth_router
 from .rewards.router import router as rewards_router
 from .notifications.router import router as notifications_router
+from .ai import ai_router
 from .authority import (
     authority_auth_router,
     authority_issues_router,
@@ -41,13 +42,17 @@ UPLOAD_DIR.mkdir(
     parents=True,
     exist_ok=True,
 )
+(UPLOAD_DIR / "annotated").mkdir(
+    parents=True,
+    exist_ok=True,
+)
 
 
 # =========================================================
 # DATABASE INITIALIZATION
+# Schema management is delegated strictly to Alembic migrations.
+# (Do not run unconditional Base.metadata.create_all on startup)
 # =========================================================
-
-Base.metadata.create_all(bind=engine)
 
 
 # =========================================================
@@ -196,3 +201,4 @@ app.include_router(authority_departments_router)
 app.include_router(authority_officers_router)
 app.include_router(authority_map_router)
 app.include_router(authority_audit_router)
+app.include_router(ai_router)

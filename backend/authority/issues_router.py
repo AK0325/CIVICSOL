@@ -25,7 +25,7 @@ from fastapi import (
 )
 from fastapi.responses import StreamingResponse
 from sqlalchemy import asc, desc
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from backend.auth.otp_service import mask_mobile
 from backend.core.config import settings
@@ -184,7 +184,15 @@ def list_authority_issues(
 
     total = query.count()
     offset = (page - 1) * page_size
-    records = query.offset(offset).limit(page_size).all()
+    records = (
+        query.options(
+            joinedload(CivicIssue.department_rel),
+            joinedload(CivicIssue.assigned_officer),
+        )
+        .offset(offset)
+        .limit(page_size)
+        .all()
+    )
     pages = (total + page_size - 1) // page_size if total > 0 else 1
 
     results = []
@@ -356,6 +364,7 @@ def get_recent_authority_activity(
         items.append(ActivityFeedItem(
             id=log.id,
             user_name=log.user.name if log.user else "System",
+            actor_name=log.user.name if log.user else "System",
             user_role=log.user.role if log.user else "SYSTEM",
             action=log.action,
             entity_type=log.entity_type,

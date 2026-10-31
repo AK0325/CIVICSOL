@@ -3,6 +3,12 @@ CIVICSOL - Idempotent Department Seeder
 Seeds standard municipal departments without duplicating or corrupting existing records.
 """
 
+import os
+import sys
+
+# Ensure workspace root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 from typing import Any, Dict, List
 from sqlalchemy.orm import Session
 

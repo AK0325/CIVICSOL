@@ -311,6 +311,59 @@ class TestDatabaseMigrationAndSafety(unittest.TestCase):
         finally:
             db.close()
 
+    def test_06_provision_initial_authority_accounts_idempotent(self):
+        """
+        Verify that provision_initial_authority_accounts safely and idempotently
+        creates the three requested initial authority accounts with correct roles and departments.
+        """
+        from backend.auth.security import verify_password
+        from backend.scripts.bootstrap_initial_authority_accounts import provision_initial_authority_accounts
+
+        Base.metadata.create_all(bind=self.engine)
+        db: Session = self.SessionLocal()
+        try:
+            # 1. First run: should create all 3 accounts
+            res1 = provision_initial_authority_accounts(db)
+            self.assertEqual(len(res1["created"]), 3)
+            self.assertEqual(len(res1["already_existed"]), 0)
+            self.assertEqual(len(res1["errors"]), 0)
+
+            # Verify Super Admin
+            admin = db.query(User).filter(User.employee_id == "ADM-001").first()
+            self.assertIsNotNone(admin)
+            self.assertEqual(admin.role, "SUPER_ADMIN")
+            self.assertTrue(admin.is_active)
+            self.assertIsNone(admin.department_id)
+            self.assertTrue(verify_password("Civicsol@Admin2026!", admin.password_hash))
+
+            # Verify Department Officer
+            dept_officer = db.query(User).filter(User.employee_id == "AUTH-001").first()
+            self.assertIsNotNone(dept_officer)
+            self.assertEqual(dept_officer.role, "DEPARTMENT_OFFICER")
+            self.assertTrue(dept_officer.is_active)
+            self.assertEqual(dept_officer.department.code, "ROADS_BRIDGES")
+            self.assertTrue(verify_password("Civicsol@Auth2026!", dept_officer.password_hash))
+
+            # Verify Field Officer
+            field_officer = db.query(User).filter(User.employee_id == "AUTH-002").first()
+            self.assertIsNotNone(field_officer)
+            self.assertEqual(field_officer.role, "FIELD_OFFICER")
+            self.assertTrue(field_officer.is_active)
+            self.assertEqual(field_officer.department.code, "STREET_LIGHTING")
+            self.assertTrue(verify_password("Civicsol@Field2026!", field_officer.password_hash))
+
+            # 2. Second run: MUST NOT create duplicate accounts or overwrite passwords
+            res2 = provision_initial_authority_accounts(db)
+            self.assertEqual(len(res2["created"]), 0)
+            self.assertEqual(len(res2["already_existed"]), 3)
+            self.assertEqual(len(res2["errors"]), 0)
+
+            # Ensure total authority user count is still 3
+            total_auth_users = db.query(User).filter(User.role != "CITIZEN").count()
+            self.assertEqual(total_auth_users, 3)
+        finally:
+            db.close()
+
 
 if __name__ == "__main__":
     unittest.main()

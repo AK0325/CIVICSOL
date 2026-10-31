@@ -16,6 +16,7 @@ import {
     History,
     X,
     Send,
+    Sparkles,
 } from "lucide-react";
 
 import {
@@ -760,6 +761,36 @@ const MyReports = () => {
 
                                         </div>
 
+                                        <div
+                                            style={{
+                                                marginTop: "10px",
+                                                display: "inline-flex",
+                                                flexWrap: "wrap",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                padding: "5px 10px",
+                                                borderRadius: "6px",
+                                                background: "rgba(14, 165, 233, 0.09)",
+                                                border: "1px solid rgba(56, 189, 248, 0.22)",
+                                                fontSize: "11.5px",
+                                                color: "#94a3b8",
+                                            }}
+                                        >
+                                            <strong style={{ color: "#38bdf8" }}>
+                                                AI Status: {issue.ai_analysis?.processing_status || "PENDING"}
+                                            </strong>
+                                            {issue.ai_analysis?.predicted_category && (
+                                                <span>
+                                                    &bull; Predicted: {issue.ai_analysis.predicted_category}
+                                                </span>
+                                            )}
+                                            {issue.ai_analysis?.suggested_department_name && (
+                                                <span>
+                                                    &bull; Suggested Dept: {issue.ai_analysis.suggested_department_name}
+                                                </span>
+                                            )}
+                                        </div>
+
                                     </div>
 
 
@@ -927,6 +958,37 @@ const MyReports = () => {
                                                 )}
                                             </div>
                                         ))}
+                                    </div>
+                                )}
+
+                                {/* Automated AI Triage & Verification Dossier */}
+                                {selectedTimeline.ai_analysis && (
+                                    <div style={{ background: "rgba(14, 165, 233, 0.08)", border: "1px solid rgba(56, 189, 248, 0.25)", padding: "14px", borderRadius: "10px", margin: "16px 0" }}>
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px", flexWrap: "wrap", gap: "8px" }}>
+                                            <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#38bdf8", fontWeight: 700, fontSize: "13px" }}>
+                                                <Sparkles size={16} />
+                                                <span>AI Verification & Automated Triage</span>
+                                            </div>
+                                            <span style={{ fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "4px", background: selectedTimeline.ai_analysis.processing_status === "COMPLETED" ? "rgba(34,197,94,0.2)" : "rgba(245,158,11,0.2)", color: selectedTimeline.ai_analysis.processing_status === "COMPLETED" ? "#4ade80" : "#fbbf24" }}>
+                                                Status: {selectedTimeline.ai_analysis.processing_status}
+                                            </span>
+                                        </div>
+                                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "8px", fontSize: "12px", color: "#cbd5e1" }}>
+                                            <div><strong>Identified Hazard:</strong> {selectedTimeline.ai_analysis.predicted_category || "In Analysis"}</div>
+                                            <div><strong>Vision Confidence:</strong> {selectedTimeline.ai_analysis.confidence_score ? `${(Number(selectedTimeline.ai_analysis.confidence_score) * 100).toFixed(1)}%` : "N/A"}</div>
+                                            <div><strong>Severity:</strong> {selectedTimeline.ai_analysis.suggested_severity || "Standard"}</div>
+                                            <div><strong>Dispatched Dept:</strong> {selectedTimeline.ai_analysis.suggested_department_name || selectedTimeline.department_name}</div>
+                                        </div>
+                                        {selectedTimeline.ai_analysis.annotated_image_path && (
+                                            <div style={{ marginTop: "10px" }}>
+                                                <span style={{ fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Visual Detection Overlay:</span>
+                                                <img
+                                                    src={getImageUrl(selectedTimeline.ai_analysis.annotated_image_path)}
+                                                    alt="AI Detection Overlay"
+                                                    style={{ maxWidth: "100%", maxHeight: "180px", borderRadius: "6px", objectFit: "cover" }}
+                                                />
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 

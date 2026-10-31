@@ -115,3 +115,111 @@
     border-radius: 6px;
     border: 1px solid rgba(148, 163, 184, 0.08);
 }
+
+
+/* Structured Section Styling */
+.section-card {
+    position: relative;
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    padding-bottom: 10px;
+}
+
+.section-tag-badge {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(148, 163, 184, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.section-tag-badge.cv-badge {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+.section-tag-badge.gemini-badge {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border-color: rgba(168, 85, 247, 0.35);
+}
+
+.section-tag-badge.priority-badge {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.section-tag-badge.dup-badge {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.35);
+}
+
+.section-tag-badge.suspicious-badge {
+    background: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
+    border-color: rgba(249, 115, 22, 0.35);
+}
+
+.section-tag-badge.dept-badge {
+    background: rgba(14, 165, 233, 0.15);
+    color: #38bdf8;
+    border-color: rgba(14, 165, 233, 0.35);
+}
+
+.section-tag-badge.review-badge {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.35);
+}
+
+.section-tag-badge.decision-badge {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
+    border-color: rgba(236, 72, 153, 0.35);
+}
+
+.section-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #f1f5f9;
+    margin: 0;
+}
+
+/* Priority Scoring Factor Breakdown */
+.factor-tile {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.factor-label {
+    font-size: 10.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.factor-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fbbf24;
+}

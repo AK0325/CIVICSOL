@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-10-31T03:54:40.818397+00:00",
+  "benchmarks": {
+    "image_preprocessing": {
+      "iterations": 20,
+      "min_ms": 1.51,
+      "mean_ms": 1.82,
+      "median_ms": 1.54,
+      "p95_ms": 3.5,
+      "max_ms": 3.5
+    },
+    "yolo_inference_cpu": {
+      "iterations": 10,
+      "min_ms": 49.02,
+      "mean_ms": 54.08,
+      "median_ms": 52.46,
+      "p95_ms": 79.19,
+      "max_ms": 79.19
+    },
+    "heuristic_description_analysis": {
+      "iterations": 50,
+      "min_ms": 0.0,
+      "mean_ms": 0.0,
+      "median_ms": 0.0,
+      "p95_ms": 0.0,
+      "max_ms": 0.01
+    },
+    "postgresql_queries": {
+      "issue_listing_indexed": {
+        "iterations": 20,
+        "min_ms": 0.73,
+        "mean_ms": 1.12,
+        "median_ms": 0.88,
+        "p95_ms": 3.65,
+        "max_ms": 3.65
+      },
+      "gis_map_all_coords": {
+        "iterations": 20,
+        "min_ms": 0.53,
+        "mean_ms": 0.74,
+        "median_ms": 0.76,
+        "p95_ms": 1.19,
+        "max_ms": 1.19
+      },
+      "ai_analyses_recent": {
+        "iterations": 20,
+        "min_ms": 0.48,
+        "mean_ms": 0.74,
+        "median_ms": 0.59,
+        "p95_ms": 3.87,
+        "max_ms": 3.87
+      }
+    }
+  },
+  "target_thresholds": {
+    "image_preprocessing_mean_ms": 50.0,
+    "yolo_cpu_inference_mean_ms": 300.0,
+    "heuristic_fallback_mean_ms": 10.0,
+    "db_query_indexed_mean_ms": 25.0
+  },
+  "overall_status": "ALL_SLAS_MET"
+}

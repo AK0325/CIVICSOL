@@ -54,7 +54,13 @@ export default function AuthorityDashboard() {
             setRecentActivity(activityData || []);
             setOfficerWorkloads(workloadsData.officers || []);
         } catch (err) {
-            setError("Failed to load dashboard metrics. Ensure the backend server is running.");
+            console.error("Dashboard data fetch failed:", err);
+            const detailMsg = err.response?.data?.detail;
+            setError(
+                typeof detailMsg === "string"
+                    ? detailMsg
+                    : "Failed to load dashboard metrics. Ensure the backend server is running."
+            );
         } finally {
             setLoading(false);
             setRefreshing(false);
@@ -421,7 +427,7 @@ export default function AuthorityDashboard() {
                                                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                                     <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                                         <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#f8fafc" }}>
-                                                            {act.actor_name || "System"}
+                                                            {act.actor_name || act.user_name || "System"}
                                                         </span>
                                                         <span style={{
                                                             fontSize: "11px",
@@ -435,7 +441,7 @@ export default function AuthorityDashboard() {
                                                         </span>
                                                     </div>
                                                     <span style={{ fontSize: "11.5px", color: "#94a3b8" }}>
-                                                        {act.details?.slice(0, 70) || `${act.target_type} #${act.target_id || ""}`}
+                                                        {act.details?.slice(0, 70) || `${act.entity_type || act.target_type || "Item"} #${act.entity_id || act.target_id || ""}`}
                                                     </span>
                                                 </div>
                                                 <span style={{ fontSize: "11px", color: "#64748b", whiteSpace: "nowrap" }}>

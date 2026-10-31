@@ -9,8 +9,11 @@ import os
 import re
 import secrets
 import sys
-from typing import Optional
 
+# Ensure workspace root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
+from typing import Optional
 from sqlalchemy.orm import Session
 
 from backend.auth.security import hash_password

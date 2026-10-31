@@ -5,7 +5,7 @@
 
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env?.VITE_API_URL || "http://127.0.0.1:8000";
 
 const authorityApi = axios.create({
     baseURL: API_BASE_URL,
@@ -204,6 +204,50 @@ export const getRecentAuthorityActivity = async (limit = 20) => {
 export const getOfficerWorkloads = async (departmentId = null) => {
     const params = departmentId ? { department_id: departmentId } : {};
     const res = await authorityApi.get("/authority/stats/officer-workloads", { params });
+    return res.data;
+};
+
+/* =========================================================
+   AI CIVIC INTELLIGENCE
+========================================================= */
+
+export const runIssueAiAnalysis = async (issueId) => {
+    const res = await authorityApi.post(`/ai/analyze/${issueId}`);
+    return res.data;
+};
+
+export const getIssueAiAnalysis = async (issueId) => {
+    const res = await authorityApi.get(`/ai/analysis/${issueId}`);
+    return res.data;
+};
+
+export const getIssueAiHistory = async (issueId) => {
+    const res = await authorityApi.get(`/ai/analysis/${issueId}/history`);
+    return res.data;
+};
+
+export const reanalyzeIssueAi = async (issueId) => {
+    const res = await authorityApi.post(`/ai/reanalyze/${issueId}`);
+    return res.data;
+};
+
+export const approveIssueAiRecommendation = async (issueId, payload = {}) => {
+    const res = await authorityApi.post(`/ai/analysis/${issueId}/approve`, payload);
+    return res.data;
+};
+
+export const rejectIssueAiRecommendation = async (issueId, payload = {}) => {
+    const res = await authorityApi.post(`/ai/analysis/${issueId}/reject`, payload);
+    return res.data;
+};
+
+export const flagAiFalsePositive = async (issueId, payload) => {
+    const res = await authorityApi.post(`/ai/analysis/${issueId}/false_positive`, payload);
+    return res.data;
+};
+
+export const linkDuplicateIssue = async (issueId, payload) => {
+    const res = await authorityApi.post(`/ai/analysis/${issueId}/link_duplicate`, payload);
     return res.data;
 };
 

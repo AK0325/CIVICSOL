@@ -52,6 +52,7 @@ class Settings(BaseSettings):
     # -----------------------------------------------------
 
     GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-3.5-flash"
 
     # -----------------------------------------------------
     # EMAIL / SMTP
@@ -95,6 +96,17 @@ class Settings(BaseSettings):
 
     RATE_LIMIT_LOGIN_MAX_ATTEMPTS: int = 5
     RATE_LIMIT_LOGIN_WINDOW_SECONDS: int = 300  # 5 minutes
+
+    # -----------------------------------------------------
+    # REDIS & CELERY ASYNCHRONOUS TASK QUEUE
+    # -----------------------------------------------------
+
+    REDIS_URL: str = "redis://localhost:6379/0"
+    CELERY_BROKER_URL: str = "redis://localhost:6379/1"
+    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/2"
+    CELERY_TASK_ALWAYS_EAGER: bool = False
+    AI_PROCESSING_LEASE_SECONDS: int = 120
+    AI_STALE_PROCESSING_TIMEOUT_SECONDS: int = 180
 
     # -----------------------------------------------------
     # PYDANTIC SETTINGS

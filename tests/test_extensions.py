@@ -441,6 +441,53 @@ class TestCivicSolExtensions(unittest.TestCase):
         self.assertEqual(sla_recent["compliance_status"], "WITHIN_SLA")
         self.assertGreater(sla_recent["hours_remaining"], 100)
 
+    def test_13_sla_timezone_aware_and_mixed_datetimes(self):
+        """Verify SLA evaluation handles both timezone-aware and timezone-naive datetimes safely."""
+        from datetime import timezone
+
+        # 1. Fully timezone-aware UTC created_at
+        aware_created = datetime.now(timezone.utc) - timedelta(days=5)
+        res_aware = evaluate_issue_sla(
+            created_at=aware_created,
+            priority="Critical",
+            status="Reported",
+        )
+        self.assertTrue(res_aware["is_overdue"])
+        self.assertEqual(res_aware["compliance_status"], "OVERDUE")
+        self.assertIsNotNone(res_aware["sla_deadline"].tzinfo)
+
+        # 2. Timezone-naive created_at
+        naive_created = datetime.utcnow() - timedelta(hours=2)
+        res_naive = evaluate_issue_sla(
+            created_at=naive_created,
+            priority="High",
+            status="Reported",
+        )
+        self.assertFalse(res_naive["is_overdue"])
+        self.assertEqual(res_naive["compliance_status"], "WITHIN_SLA")
+        self.assertIsNone(res_naive["sla_deadline"].tzinfo)
+
+        # 3. Mixed timezone awareness: Aware created_at and Naive resolved_at
+        aware_created_past = datetime.now(timezone.utc) - timedelta(days=2)
+        naive_resolved_past = datetime.utcnow() - timedelta(days=1)
+        res_mixed = evaluate_issue_sla(
+            created_at=aware_created_past,
+            priority="High",
+            status="Resolved",
+            resolved_at=naive_resolved_past,
+        )
+        self.assertFalse(res_mixed["is_overdue"])
+        self.assertEqual(res_mixed["compliance_status"], "WITHIN_SLA")
+
+        # 4. None created_at fallback
+        res_none = evaluate_issue_sla(
+            created_at=None,
+            priority="Medium",
+            status="Reported",
+        )
+        self.assertFalse(res_none["is_overdue"])
+        self.assertEqual(res_none["sla_hours"], 72)
+
 
 if __name__ == "__main__":
     unittest.main()

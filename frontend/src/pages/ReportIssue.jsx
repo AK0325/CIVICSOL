@@ -397,7 +397,47 @@ const ReportIssue = () => {
                                 </strong>
                             </div>
 
+                            <div>
+                                <span>AI TRIAGE STATUS</span>
+
+                                <strong>
+                                    {success.issue?.ai_analysis?.processing_status ||
+                                        "QUEUED"}
+                                </strong>
+                            </div>
+
                         </div>
+
+                        {success.issue?.ai_analysis && (
+                            <div
+                                style={{
+                                    marginTop: "14px",
+                                    padding: "12px 16px",
+                                    borderRadius: "10px",
+                                    background: "rgba(14, 165, 233, 0.08)",
+                                    border: "1px solid rgba(56, 189, 248, 0.22)",
+                                    fontSize: "13px",
+                                    color: "#cbd5e1",
+                                    textAlign: "left",
+                                }}
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#38bdf8", fontWeight: 700, marginBottom: "4px" }}>
+                                    <Sparkles size={15} />
+                                    <span>Civic AI Intelligence Triage</span>
+                                </div>
+                                <div>
+                                    <strong>Predicted Category:</strong>{" "}
+                                    {success.issue.ai_analysis.predicted_category || "Pending Authority Review"}
+                                    {success.issue.ai_analysis.suggested_department_name && (
+                                        <>
+                                            {" • "}
+                                            <strong>Recommended Dept:</strong>{" "}
+                                            {success.issue.ai_analysis.suggested_department_name}
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                         <div className="success-actions">
 
