@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import {
+    API_BASE_URL,
     getMyIssues,
     getIssueTimeline,
     requestIssueReopen,
@@ -245,7 +246,7 @@ const MyReports = () => {
             return path;
         }
 
-        return `http://127.0.0.1:8000/${path}`;
+        return `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
     };
 
 
